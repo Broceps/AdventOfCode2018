@@ -6,7 +6,7 @@ public class Day3 {
 
 	int[][] fabrics = new int[1000][1000]; //Declaring the matrix
 
-	//First Puzzle
+	//First & Second Puzzle
 
 	/**
 	 * Make an matrix of 1000x1000 by filling them with zeros, for each fabric claim, mark the spot in the matrix by
@@ -63,10 +63,10 @@ public class Day3 {
 		int start, end;
 		int fromLeft;
 		String convert;
-		
+
 		start = input.indexOf("@");
 		end = input.indexOf(",");
-		
+
 		convert = input.substring(start+2, end);
 		fromLeft = Integer.parseInt(convert);
 		return fromLeft;
@@ -76,10 +76,10 @@ public class Day3 {
 		int start, end;
 		int fromTop;
 		String convert;
-		
+
 		start = input.indexOf(",");
 		end = input.indexOf(":");
-		
+
 		convert = input.substring(start+1, end);
 		fromTop = Integer.parseInt(convert);
 		return fromTop;
@@ -89,10 +89,10 @@ public class Day3 {
 		int start, end;
 		int width;
 		String convert;
-		
+
 		start = input.indexOf(":");
 		end = input.indexOf("x");
-		
+
 		convert = input.substring(start+2, end);
 		width = Integer.parseInt(convert);
 		return width;
@@ -102,19 +102,28 @@ public class Day3 {
 		int start;
 		int height;
 		String convert;
-		
+
 		start = input.indexOf("x");
-		
+
 		convert = input.substring(start+1);
 		height = Integer.parseInt(convert);
 		return height;
 	}
-	
-	
-	
-	public void actionFirstPart() {
+
+	public String getClaimID(String input) { 	//For the second part
+		String id;
+		int end;
+		end = input.indexOf(" ");		
+		id = input.substring(0, end);
+
+		return id;
+	}
+
+
+
+	public void action() {
 		createMatrix();
-		
+
 		for(String claim : input) {
 			int fromLeft, fromTop, width, height;
 			fromLeft = getFromLeft(claim);
@@ -127,7 +136,7 @@ public class Day3 {
 
 	public void countMatrix() {
 		int counter = 0;
-		
+
 		for(int row = 0; row < fabrics.length; row++) {
 			for(int col = 0; col < fabrics[row].length; col++ ) {
 				if (fabrics[row][col] > 1) {
@@ -135,20 +144,58 @@ public class Day3 {
 				}
 			}
 		}
-		
+
 		System.out.println(counter);
-		
+
 	}
+
+	//For second puzzle
+	public void scanFabric() {
+		boolean noOverlap = false;
+
+		while(noOverlap == false) {
+
+			for(String claim : input) {
+				int counter = 0;
+				int fromLeft, fromTop, width, height;
+				fromLeft = getFromLeft(claim);
+				fromTop = getFromTop(claim);
+				width = getWidth(claim);
+				height = getHeight(claim);
+				//loop through and check all spots from the claim in specific
+				for(int row = fromTop; row < height+fromTop; row++) {
+					for(int col = fromLeft; col < width+fromLeft; col++) {
+						if(fabrics[row][col] > 1) {
+							counter ++;
+						}
+					}
+				}
+				if (counter == 0) {
+					noOverlap = true;
+					System.out.println(getClaimID(claim));
+				}
+				
+			}
+		}
+	}
+
 
 
 	public static void main(String[] args) {
 		Day3 prog = new Day3();
+		//Tests
 		//prog.createMatrix();
 		//prog.claimFabric(3, 2, 5, 4);
 		//prog.printMatrix();
-		
-		prog.actionFirstPart();
+
+		//Puzzle 1
+		prog.action();
 		prog.countMatrix();
+		prog.scanFabric();
+
+		
+
+
 
 
 	}
