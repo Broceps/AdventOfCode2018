@@ -149,7 +149,7 @@ public class Day3 {
 
 	}
 
-	//For second puzzle
+	//For second puzzle 
 	public void scanFabric() {
 		boolean noOverlap = false;
 
@@ -188,9 +188,10 @@ public class Day3 {
 		//prog.claimFabric(3, 2, 5, 4);
 		//prog.printMatrix();
 
-		//Puzzle 1
+		//Puzzle 1 
 		prog.action();
 		prog.countMatrix();
+		//Puzzle 2
 		prog.scanFabric();
 
 		
